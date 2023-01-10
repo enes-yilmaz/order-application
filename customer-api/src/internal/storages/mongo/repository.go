@@ -18,47 +18,6 @@ func NewRepository(mc *mongo.Collection) *Repository {
 	return &Repository{mc: mc}
 }
 
-//type IRepository interface {
-//	FindCustomers(limit, offset int) ([]types.Customer, error)
-//}
-
-//func (r Repository) Delete(id string) error {
-//	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-//	defer cancel()
-//	filter := bson.M{
-//		"_id": id,
-//	}
-//	_, err := r.mc.DeleteOne(ctx, filter)
-//	if err != nil {
-//		panic(errors.FindFailed)
-//	}
-//
-//	return err
-//}
-
-//func (r Repository) FindAllCustomers(req types.GetAllCustomersRequest) ([]types.Customer, int, error) {
-//	filter := bson.M{}
-//
-//	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-//	defer cancel()
-//
-//	opts := options.Find().SetSkip(int64(req.Offset)).SetLimit(int64(req.Limit))
-//
-//	customers := make([]types.Customer, 0)
-//
-//	cursor, err := r.mc.Find(ctx, filter, opts)
-//
-//	if err != nil && err != mongo.ErrNoDocuments {
-//		return nil, 0, errors.FindFailed
-//	}
-//
-//	if err = cursor.All(ctx, &customers); err != nil {
-//		return nil, 0, errors.MongoCursorFailed
-//	}
-//
-//	return customers, 0, nil
-//}
-
 func (r Repository) GetAllCustomers(req types.GetAllCustomersRequest) (types.Customers, error) {
 
 	findCustomersFilter := types2.FindCustomersFilter{
@@ -219,36 +178,3 @@ func (r Repository) findCustomersByAggregation(pipeline []bson.M) (types.Custome
 
 	return customers[0], nil
 }
-
-//func (r Repository) FindOne(id string) (*types.Customer, error) {
-//	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-//	defer cancel()
-//	filter := bson.M{
-//		"_id": id,
-//	}
-//	result := r.mc.FindOne(ctx, filter)
-//	if result.Err() == mongo.ErrNoDocuments {
-//		return nil, nil
-//	}
-//	var customer types.Customer
-//	err := result.Decode(&customer)
-//	return &customer, err
-//}
-//
-//func (r Repository) Insert(customer *types.Customer) error {
-//	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-//	defer cancel()
-//	_, err := r.mc.InsertOne(ctx, customer)
-//	return err
-//}
-//
-//func (r Repository) UpdateCustomerById(filter, updateModel bson.M) *errors.Error {
-//	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-//	defer cancel()
-//
-//	_, err := r.mc.UpdateOne(ctx, filter, updateModel)
-//	if err != nil && err != mongo.ErrNoDocuments {
-//		return errors.UpdateOneFailed
-//	}
-//	return nil
-//}

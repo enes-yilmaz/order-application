@@ -28,7 +28,6 @@ func NewHandler(baseGroup *echo.Group, customerRepo *customerRepo.Repository) *H
 	g.GET("/validate/:customerId", h.ValidateCustomer)
 	g.POST("", h.CreateCustomer)
 	g.POST("/update", h.UpdateCustomer)
-
 	g.DELETE("/:customerId", h.DeleteCustomer)
 
 	return h
@@ -40,10 +39,10 @@ func NewHandler(baseGroup *echo.Group, customerRepo *customerRepo.Repository) *H
 // @Accept  json
 // @Produce json
 // @Param   limit     		query    number    	false " " "10"
-// @Param   offset      	query    number 	false " " "0"
-// @Param   orderDirection  query     string    false "orderDirection"
-// @Param   orderBy         query     string    false "orderBy"
-// @Param   isCount         query     boolean   false "false"
+// @Param   offset      	query    number		false " " "0"
+// @Param   orderDirection  query    string     false "orderDirection"
+// @Param   orderBy         query    string     false "orderBy"
+// @Param   isCount         query    boolean    false "false"
 // @Success 200
 // @Failure 404 "Not Found"
 // @Failure 500 "Internal Error"
@@ -168,7 +167,7 @@ func (h Handler) CreateCustomer(c echo.Context) error {
 	}
 	err = h.customerRepo.SaveCustomer(customer)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return err.(*errors.Error).ToResponse(c)
 	}
 
 	return c.JSON(http.StatusCreated, customer.Id)
@@ -214,7 +213,7 @@ func (h Handler) UpdateCustomer(c echo.Context) error {
 	//err = h.customerRepo.UpdateOneByCustomerId(filter, updateModel)
 	customer, err := h.customerRepo.UpdateOneByCustomerId2(filter, updateModel)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return err.(*errors.Error).ToResponse(c)
 	}
 
 	return c.JSON(http.StatusCreated, customer)

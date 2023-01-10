@@ -38,11 +38,3 @@ type (
 		Address Address `json:"address"`
 	}
 )
-
-//type UpsertSalesPotentialLogRequestType struct {
-//	MerchantId       uuid.UUID                 `json:"merchantId" validate:"required"`
-//	SalesPotentialId uuid.UUID                 `json:"salesPotentialId" validate:"required"`
-//	IsLiked          *bool                     `json:"isLiked"`
-//	Product          SalesPotential.LogProduct `json:"product" validate:"required"`
-//	Status           *string                   `json:"status"`
-//}
