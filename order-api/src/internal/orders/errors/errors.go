@@ -5,9 +5,9 @@ import (
 	"net/http"
 )
 
-const repoOp = "Order repo"
-const handlerOp = "Order handler"
-const customerClientOp = "customer.client"
+const repoOp = "orders.repo"
+const handlerOp = "orders.handler"
+const customerClientOp = "orders.client.customer"
 
 var (
 	AggregateError        = errors.New(repoOp, "AggregateError  ", 1001, http.StatusInternalServerError)
@@ -19,4 +19,5 @@ var (
 	FailedToBindError     = errors.New(customerClientOp, "Failed to bind data from client", 10007, http.StatusInternalServerError)
 	ValidateCustomerError = errors.New(customerClientOp, "ValidateCustomerError", 10008, http.StatusInternalServerError)
 	NonExistCustomer      = errors.New(customerClientOp, "There is no customer with this customerId", 1009, http.StatusBadRequest)
+	JsonUnmarshalFailed   = errors.New(handlerOp, "Json unmarshal error", 100010, http.StatusInternalServerError)
 )

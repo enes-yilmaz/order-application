@@ -7,13 +7,13 @@ import (
 	"net/http"
 )
 
-const customerApi string = "order-api"
+const orderApi string = "order-api"
 const validatorOp string = "order-api.handlers.validator"
 const repoOp string = "order-api.repository"
 
 var (
-	UnknownError                          = New(customerApi, "Unknown Error !!!", 10500, http.StatusInternalServerError)
-	FailedImplementParamIntoTemplateError = New(customerApi, "Failed to implement given parameter into query", 10501, http.StatusInternalServerError)
+	UnknownError                          = New(orderApi, "Unknown Error !!!", 10500, http.StatusInternalServerError)
+	FailedImplementParamIntoTemplateError = New(orderApi, "Failed to implement given parameter into query", 10501, http.StatusInternalServerError)
 )
 
 var (
@@ -45,7 +45,8 @@ var (
 	LimitInvalid  = New(orderServiceApiOp, "Invalid parameter - limit", 1006, http.StatusBadRequest)
 	OffsetInvalid = New(orderServiceApiOp, "Invalid parameter - offset", 1007, http.StatusBadRequest)
 
-	ModelParseError = New(orderServiceApiOp, "Model parse error", 1008, http.StatusInternalServerError)
+	ModelParseError     = New(orderServiceApiOp, "Model parse error", 1008, http.StatusInternalServerError)
+	JsonUnmarshalFailed = New(orderServiceApiOp, "Json unmarshal error", 1009, http.StatusInternalServerError)
 )
 
 // Pagination

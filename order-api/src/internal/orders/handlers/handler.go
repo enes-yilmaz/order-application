@@ -8,9 +8,10 @@ import (
 	orderRepository "OrderAPI/src/internal/orders/storages/mongo"
 	"OrderAPI/src/pkg/errors"
 	"OrderAPI/src/pkg/utils"
-	"fmt"
+	"encoding/json"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
@@ -36,7 +37,7 @@ func NewHandler(g *echo.Group, orderRepository *orderRepository.Repository) *Han
 	g.POST("/create", h.CreateOrder)
 	g.POST("/update", h.UpdateOrder)
 	g.DELETE("/:orderId", h.DeleteOrder)
-	g.PATCH("/:orderId", h.ChangeOrderStatus)
+	g.POST("/change-order-status", h.ChangeOrderStatus)
 
 	return h
 }
@@ -165,31 +166,29 @@ func (h Handler) DeleteOrder(c echo.Context) error {
 // @Tags     Orders
 // @Accept   json
 // @Produce  json
-// @Param    orderId path	string true   " "
 // @Param    RequestBody  body   types.ChangeOrderStatusRequest  true   " "
 // @Success  204
 // @Failure  400 "Bad Request"
 // @Failure  500 "Internal Error"
-// @Router   /orders/{orderId} [patch]
+// @Router   /orders/change-order-status [post]
 func (h Handler) ChangeOrderStatus(c echo.Context) error {
 	var err error
-	req := new(types.ChangeOrderStatusRequest)
-
-	req.OrderId = strings.TrimSpace(c.Param("orderId"))
-	_, err = uuid.Parse(req.OrderId)
+	body, err := ioutil.ReadAll(c.Request().Body)
+	req := types.ChangeOrderStatusRequest{}
+	err = json.Unmarshal(body, &req)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, errors.OrderUUIDInvalid)
-	}
-	if !helpers.IsValidStatus(req.Status) {
-		return c.JSON(http.StatusBadRequest, errors.ValidatorError.WrapDesc(fmt.Sprintf("Invalid Status value:%s. Valid Status values are Accepted,Pending,Shipped,Delivered,Canceled.", req.Status)))
-
+		panic(errors.JsonUnmarshalFailed)
 	}
 
-	modifiedCount, err := h.orderRepo.ChangeOrderStatus(req)
+	if err = helpers.ValidateChangeOrderStatusRequest(req); err != nil {
+		panic(err)
+	}
+
+	_, err = h.orderRepo.ChangeOrderStatus(req)
 	if err != nil {
-		return err.(*errors.Error).ToResponse(c)
+		panic(err)
 	}
-	return c.JSON(http.StatusOK, modifiedCount > 0)
+	return c.NoContent(http.StatusNoContent)
 }
 
 // GetAllOrders

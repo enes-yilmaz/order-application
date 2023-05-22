@@ -70,7 +70,7 @@ func (r Repository) DeleteOrderByOrderId(orderId string) (int, error) {
 	return int(res.DeletedCount), nil
 }
 
-func (r Repository) ChangeOrderStatus(req *types.ChangeOrderStatusRequest) (int, error) {
+func (r Repository) ChangeOrderStatus(req types.ChangeOrderStatusRequest) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
