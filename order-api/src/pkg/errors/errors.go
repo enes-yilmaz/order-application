@@ -36,7 +36,9 @@ var (
 	CustomerAddressInvalid = New(orderServiceApiOp, "Invalid Customer address given", 1003, http.StatusBadRequest)
 
 	CustomerUUIDInvalid = New(orderServiceApiOp, "Invalid Customer uuid given", 1004, http.StatusBadRequest)
-	CustomerNotFound    = New(orderServiceApiOp, "Customer Not Found", 1005, http.StatusNotFound)
+	OrderUUIDInvalid    = New(orderServiceApiOp, "Invalid Order uuid given", 1005, http.StatusBadRequest)
+	CustomerNotFound    = New(orderServiceApiOp, "Customer Not Found", 1006, http.StatusNotFound)
+	OrderNotFound       = New(orderServiceApiOp, "Order Not Found", 1007, http.StatusNotFound)
 
 	CustomerAlreadyCreated = New(orderServiceApiOp, "Customer with this email is exist.", 1015, http.StatusBadRequest)
 
