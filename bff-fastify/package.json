@@ -1,0 +1,32 @@
+{
+  "name": "bff-fastify",
+  "version": "1.0.1",
+  "description": "Backend for frontend layer of order application",
+  "main": "index.js",
+  "repository": "gitlab.hepsiburada.com/qos/jiren",
+  "author": "enes-yilmaz",
+  "license": "ISC",
+  "scripts": {
+    "start": "node src",
+    "dev": "nodemon src",
+    "lint": "eslint --fix ."
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.0.0",
+    "@fastify/swagger": "^7.4.1",
+    "axios": "^0.24.0",
+    "cors": "^2.8.5",
+    "fastify": "^4.0.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "glob": "^7.2.0",
+    "nodemon": "^2.0.19"
+  }
+}
