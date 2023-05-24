@@ -1,6 +1,6 @@
 exports.getAllCustomers = {
     description: 'Anyone can access to it',
-    tags: ['customer'],
+    tags: ['customer-service'],
     summary: 'Get all customers',
     querystring: {
         limit: { type: 'number' },
@@ -34,6 +34,187 @@ exports.getAllCustomers = {
         //         offset: { type: 'number', example: '0' }
         //     }
         // },
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                correlationId: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        }
+    }
+}
+
+exports.getCustomer = {
+    description: 'Anyone can access to it',
+    tags: ['customer-service'],
+    summary: 'Get customer by id',
+    path: '/api/v1/customers/{customerId}',
+    params: {
+        type: 'object',
+        required: ['customerId'],
+        properties: {
+            customerId: {
+                type: 'string'
+            }
+        }
+    },
+    response: {
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                correlationId: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        }
+    }
+}
+
+exports.getCustomerValidation = {
+    description: 'Anyone can access to it',
+    tags: ['customer-service'],
+    summary: 'Get customer validation',
+    path: '/api/v1/customers/validation/{customerId}',
+    params: {
+        type: 'object',
+        required: ['customerId'],
+        properties: {
+            customerId: {
+                type: 'string'
+            }
+        }
+    },
+    response: {
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                correlationId: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        }
+    }
+}
+
+exports.postCreateCustomer = {
+    description: 'Anyone can access to it',
+    tags: ['customer-service'],
+    summary: 'Create a customer',
+    body: {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+            email: { type: 'string' },
+            address: {
+                type: 'object',
+                properties: {
+                    addressLine: { type: 'string' },
+                    city: { type: 'string' },
+                    country: { type: 'string' },
+                    cityCode: { type: 'number' }
+                }
+            }
+        }
+    },
+    response: {
+        201: {
+            description: 'Success response',
+            type: 'object',
+            properties: {
+            }
+        },
+        400: {
+            description: 'Bad Request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        }
+    }
+}
+
+exports.postUpdateCustomer = {
+    description: 'Anyone can access to it',
+    tags: ['customer-service'],
+    summary: 'Update a customer',
+    body: {
+        type: 'object',
+        properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            email: { type: 'string' },
+            address: {
+                type: 'object',
+                properties: {
+                    addressLine: { type: 'string' },
+                    city: { type: 'string' },
+                    country: { type: 'string' },
+                    cityCode: { type: 'number' }
+                }
+            }
+        }
+    },
+    response: {
+        201: {
+            description: 'Success response',
+            type: 'object',
+            properties: {
+            }
+        },
+        400: {
+            description: 'Bad Request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                statusCode: { type: 'number' },
+                errorCode: { type: 'number' }
+            }
+        }
+    }
+}
+
+exports.deleteCustomer = {
+    description: 'Anyone can access to it',
+    tags: ['customer-service'],
+    summary: 'Delete customer by id',
+    path: '/api/v1/customers/{customerId}',
+    params: {
+        type: 'object',
+        required: ['customerId'],
+        properties: {
+            customerId: {
+                type: 'string'
+            }
+        }
+    },
+    response: {
         500: {
             description: 'Internal Server Error',
             type: 'object',
